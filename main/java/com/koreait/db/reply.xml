@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Reply">
+<select id="reply_view" parameterType="String" resultType="com.koreait.reply.ReplyDTO" > <!-- resultType에 변수이름이랑 sql문에 변수이름이랑 같아야 한다(where 뒤에는 가능) -->
+		select re_idx as idx, re_userid as userid, re_content as content, re_regdate as regdate from tb_reply where re_boardidx=#{idx} order by re_idx desc
+</select>
+<select id="replyNum" resultType="int" parameterType="map">
+		select count(re_idx) as replycnt from tb_reply where re_boardidx=#{re_boardidx}
+</select>
+<insert id="reply_ok" parameterType="map">
+	insert into tb_reply (re_userid, re_content, re_boardidx) values (#{re_userid}, #{re_content}, #{re_boardidx})
+</insert> 
+<delete id="reply_delete" parameterType="map">
+	delete from tb_reply where re_idx=#{re_idx}
+</delete>
+</mapper>
